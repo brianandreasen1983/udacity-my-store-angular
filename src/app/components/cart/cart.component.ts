@@ -33,22 +33,27 @@ export class CartComponent implements OnInit {
     form.address = this.address;
     form.creditCardNumber = this.creditCardNumber;
 
-    if(form.fullName === "" || form.address === "" ||  form.creditCardNumber === "") {
-      console.log("something has happened");
-    } else {
-      this.router.navigate([`/confirmation`], { state: { total: this.total }});
-    }
+    this.router.navigate([`/confirmation`], { state: { total: this.total }});
   }
 
   onNumberChanged(event: Event, product: Product): void {
     product.quantity = Number(event);
 
     if(product.quantity === 0) {
-      this.cartService.removeProductFromCart(product);
-      this.products = this.cartService.getProducts();
+      this.removeProductFromCart(product)
+    } else {
+      this.updateCart();
     }
+  }
 
+  updateCart(): void {
+    alert(`Your cart and total has been updated.`)
     this.cartService.calculateCartTotal();
+  }
+
+  removeProductFromCart(product: Product): void {
+    this.cartService.removeProductFromCart(product);
+    this.products = this.cartService.getProducts();
   }
 
   calculateTotal(): number {
