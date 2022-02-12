@@ -59,4 +59,8 @@ export class CartComponent implements OnInit {
   calculateTotal(): number {
     return this.cartService.calculateCartTotal();
   }
+
+  getCartTotal(): number {
+    return this.cartService.getCartTotal();
+  }
 }

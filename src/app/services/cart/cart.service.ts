@@ -7,7 +7,9 @@ import Product from 'src/app/models/product';
 
 export class CartService {
   products: Array<Product> = [];
-  total: number = 0;
+  productTotal: number = 0;
+  grandTotal: number = 0;
+  
 
 
   constructor() { }
@@ -17,32 +19,40 @@ export class CartService {
   }
   
   getCartTotal(): number {
-    return this.total;
+    return this.grandTotal;
   }
 
   addProductToCart(product: Product): void {
     this.products.push(product);
+    this.calculateCartTotal();
   }
 
   removeProductFromCart(product: Product): void {
     let filteredArray = this.products.filter(p => p.id !== product.id);
     this.products = filteredArray;
-    this.resetTotal();
+    
+    if(this.products.length === 0) {
+      this.resetTotal();
+    }
+
     alert(`${product.name} has been removed from the cart.`);
   }
 
   calculateCartTotal(): number {
     if (this.products.length === 0) {
-      return this.total;
+      return this.productTotal;
     } else {
       this.products.forEach(product => {
-        this.total = product.quantity * product.price;
+        this.productTotal = product.quantity * product.price;
       });
-      return this.total;
+
+      this.grandTotal += this.productTotal
+
+      return this.grandTotal;
     }
   }
 
   resetTotal(): void {
-    this.total = 0;
+    this.productTotal = 0;
   }
 }
