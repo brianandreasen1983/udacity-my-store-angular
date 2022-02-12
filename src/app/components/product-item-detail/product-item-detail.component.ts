@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Navigation, Router } from '@angular/router';
 import Product from 'src/app/models/product';
 import { CartService } from 'src/app/services/cart/cart.service';
@@ -10,7 +10,7 @@ import { CartService } from 'src/app/services/cart/cart.service';
 })
 
 export class ProductItemDetailComponent implements OnInit {
-  @Input() product: Product = new Product()
+  @Input() product: Product = new Product();
   quantities: Array<number> = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   constructor(private router: Router, private cartService: CartService) {
@@ -25,12 +25,11 @@ export class ProductItemDetailComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  addToCart(product: Product) {
+  addToCart(product: Product): void {
+    alert(`${product.name} has been added to the cart.`);
     this.cartService.addProductToCart(product);
-    alert(`${product.name} has been added to the cart!`)
   }
 
-  // Not working or firing needs to fire in order to change the quantity for the product.
   changeQuantity(event: Event) {
     this.product.quantity = Number(event);
   }
